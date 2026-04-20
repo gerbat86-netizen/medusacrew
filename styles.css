@@ -1,0 +1,123 @@
+body {
+margin:0;
+font-family:Arial;
+background:#000;
+color:#fff;
+text-align:center;
+}
+
+.hero {
+padding:40px 20px;
+}
+
+.logo {
+width:150px;
+margin-bottom:10px;
+}
+
+.section {
+padding:30px 15px;
+}
+
+.productos {
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+}
+
+.card {
+background:#111;
+padding:15px;
+border-radius:15px;
+width:250px;
+transition:0.4s;
+}
+
+.card img {
+width:100%;
+border-radius:10px;
+}
+
+.desc {
+font-size:14px;
+opacity:0.7;
+}
+
+button {
+margin-top:10px;
+padding:10px;
+border:none;
+background:yellow;
+cursor:pointer;
+}
+
+.filtros button {
+margin:5px;
+background:#111;
+color:#fff;
+border:1px solid yellow;
+}
+
+.filtros .activo {
+background:yellow;
+color:#000;
+}
+
+#buscador {
+width:80%;
+padding:12px;
+margin-bottom:20px;
+border-radius:10px;
+border:none;
+}
+
+.oculto {
+opacity:0;
+transform:translateY(20px);
+position:absolute;
+pointer-events:none;
+}
+
+.mostrar {
+opacity:1;
+transform:translateY(0);
+position:relative;
+}
+
+.img-container {
+position:relative;
+}
+
+.flecha {
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,0.5);
+color:#fff;
+border:none;
+font-size:20px;
+padding:5px;
+cursor:pointer;
+}
+
+.izq { left:5px; }
+.der { right:5px; }
+
+/* WHATSAPP ICONO RESPONSIVE */
+.whatsapp-icon {
+width: clamp(45px, 8vw, 65px);
+margin-top:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.whatsapp-icon:hover {
+transform:scale(1.1);
+}
+
+@media(max-width:768px){
+.card{
+width:90%;
+}
+}
