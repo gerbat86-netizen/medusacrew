@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDUSA CREW</title>
+
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+
+<body>
+
+<header class="hero">
+
+<img src="images/logo.png" class="logo">
+
+<h1 class="hero-title">Medusa Crew</h1>
+<p class="hero-sub">Diseños únicos y personalizados</p>
+<p class="hero-sub2">Pedí el tuyo por WhatsApp</p>
+
+<div class="rating">
+<div class="stars">★★★★★</div>
+<strong>4.8/5</strong> • 433 reseñas
+</div>
+
+<p class="hook">Envíos a todo el país • Diseños exclusivos • Creamos tu marca</p>
+
+</header>
+
+<section class="section">
+
+<input type="text" id="buscador" placeholder="Buscar producto..." onkeyup="buscarProducto()">
+
+<!-- 🔥 CATEGORÍAS FIX DEFINITIVO -->
+<div class="filtros">
+<button class="activo" onclick="filtrar('todos', event)">TODOS</button>
+<button onclick="filtrar('buzo', event)">BUZOS</button>
+<button onclick="filtrar('remera', event)">REMERAS</button>
+<button onclick="filtrar('campera', event)">CAMPERAS</button>
+<button onclick="filtrar('top', event)">TOPS</button>
+</div>
+
+<div id="productos" class="productos"></div>
+
+</section>
+
+<section class="section">
+
+<h2>VISITANOS EN NUESTRO LOCAL</h2>
+
+<p><strong>Calle 12 #1143, La Plata (CP1900)</strong></p>
+<p>Lunes a Sabados de 9 a 20:30 hs</p>
+
+<img src="images/local.jpg" class="local-img">
+
+<div class="local-botones">
+<a class="btn btn-mapa" href="#">📍 Cómo llegar</a>
+<a class="btn btn-reseñas" href="#">⭐ Reseñas</a>
+</div>
+
+</section>
+
+<!-- IG -->
+<section class="section contacto">
+
+<div class="ig-header">
+
+<div class="ig-avatar">
+<img src="images/logoig.jpg">
+</div>
+
+<div class="ig-info">
+<div class="ig-user">
+<strong>@medusaindumentaria</strong>
+<img src="images/verificado.png" class="verificado">
+</div>
+<span>Diseños personalizados • Pedí el tuyo</span>
+</div>
+
+<a href="https://instagram.com/medusaindumentaria" target="_blank" class="ig-btn">Seguir</a>
+
+</div>
+
+<div id="instagram-feed" class="instagram-feed"></div>
+
+</section>
+
+<a href="https://wa.me/5492214597447" class="whatsapp-float">💬</a>
+
+<script>
+
+// WHATSAPP
+function comprar(producto, img){
+let mensaje = `Hola! 👋\n\nQuiero este producto:\n${producto}\n\n${img}`;
+window.open("https://wa.me/5492214597447?text=" + encodeURIComponent(mensaje));
+}
+
+// IG (estable)
+fetch("instagram.json")
+.then(r=>r.json())
+.then(data=>{
+
+const container=document.getElementById("instagram-feed");
+
+data.forEach(item=>{
+
+const likes=Math.floor(Math.random()*500+80);
+const views=Math.floor(Math.random()*1500+200);
+
+const div=document.createElement("div");
+div.className="ig-item";
+
+div.innerHTML=`
+<img src="${item.img}">
+<div class="ig-overlay">
+<div class="ig-stats">
+<span>❤️ ${likes}</span>
+<span>👁️ ${views}</span>
+</div>
+</div>
+`;
+
+div.onclick=()=>comprar(item.producto,item.img);
+
+container.appendChild(div);
+
+});
+
+});
+
+// PRODUCTOS
+const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vQjmjXlqJZjbobERVOJBVmaRkVycgVwQvGqEoYNxP0iYW9j0Q9eWtZMDStJZsa4tB6NMfX3QPjQb_l-/pub?output=csv";
+
+Papa.parse(sheetURL,{
+download:true,
+header:true,
+complete:function(results){
+
+results.data.forEach(item=>{
+if(!item.nombre) return;
+
+const img=item.imagenes.split("|")[0];
+
+const card=document.createElement("div");
+card.className="card";
+card.setAttribute("data-cat",item.categoria.toLowerCase());
+
+card.innerHTML=`
+<img src="${img}">
+<p><strong>${item.nombre}</strong></p>
+<p>${item.descripcion}</p>
+<button class="buy-btn" onclick="comprar('${item.nombre}','${img}')">COMPRAR</button>
+`;
+
+document.getElementById("productos").appendChild(card);
+
+});
+}
+});
+
+function filtrar(cat,e){
+document.querySelectorAll(".filtros button").forEach(b=>b.classList.remove("activo"));
+if(e) e.target.classList.add("activo");
+
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=(cat==="todos"||c.dataset.cat===cat)?"block":"none";
+});
+}
+
+function buscarProducto(){
+let val=document.getElementById("buscador").value.toLowerCase();
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=c.innerText.toLowerCase().includes(val)?"block":"none";
+});
+}
+
+</script>
+
+</body>
+</html>
