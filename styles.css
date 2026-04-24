@@ -99,9 +99,9 @@ color:#000;
 /* ✅ GRILLA BIEN HECHA */
 .productos{
 display:grid;
-grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
 gap:15px;
-max-width:1200px;
+max-width:1300px;
 margin:auto;
 padding:0 10px;
 }
